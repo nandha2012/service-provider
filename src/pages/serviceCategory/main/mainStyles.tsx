@@ -1,8 +1,14 @@
 import {
     Theme,
-    createStyles
+    createStyles,
+    createMuiTheme
   } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
+export const theme = createMuiTheme({
+  overrides:{
+
+  }
+})
 const useStyles = makeStyles((theme: Theme) => (
     createStyles({
         root:{
@@ -14,6 +20,8 @@ const useStyles = makeStyles((theme: Theme) => (
             right:  theme.spacing(2),
             
           },
+        categoryBody:theme.mixins.toolbar,
+        
     })
     )
 )

@@ -9,11 +9,7 @@ export const theme = createMuiTheme({
         // Style sheet name ⚛️
         MuiLink: {
             root: {
-                color: '#fff',
-                "&:hover": {
-                    color: "#03fcba",
-                    textDecoration: "none"
-                }
+                color: '#ffff',
             }
         },
         MuiTypography: {
@@ -27,6 +23,27 @@ export const theme = createMuiTheme({
                 paddingLeft: 0
             }
         },
+        MuiOutlinedInput: {
+            root: {
+                position: 'relative',
+                '& $notchedOutline': {
+                    borderColor: '#ffff',
+                    borderWidth:'2px',
+                    
+                },
+                '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
+                    borderColor: '#ffff',
+                    // Reset on touch devices, it doesn't add specificity
+                    '@media (hover: none)': {
+                        borderColor: '#ffff',
+                    },
+                },
+                '&$focused $notchedOutline': {
+                    borderColor: '#ffff',
+                    borderWidth: 1,
+                },
+            },
+        },    
     },
 });
 const useStyles = makeStyles((theme: Theme) => (
@@ -36,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => (
             width: '100%',
             background: '#878787 0% 0% no-repeat padding-box',
             color: '#fff',
-            padding: '60px 0 15px 0'
+            padding: '60px 0 15px 0',
         },
         footerContent: {
 
@@ -53,8 +70,8 @@ const useStyles = makeStyles((theme: Theme) => (
         formInput: {
             height: "40px",
             padding: '0px',
-            color: '#fff',
-            width: '80%'
+            width: '80%',
+            color:'#ffff'
         },
         formButton: {
             // Some CSS

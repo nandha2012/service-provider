@@ -2,10 +2,8 @@ import {
     Theme,
     createStyles
 } from '@material-ui/core/styles';
-import leftBackground from '../../assets/img/front-login-img.png'
+import leftBackground from '../../../assets/img/front-login-img.png'
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Divider } from '@material-ui/core';
-import React from 'react';
 const useStyles = makeStyles((theme: Theme) => (
     createStyles({
         leftPannel: {

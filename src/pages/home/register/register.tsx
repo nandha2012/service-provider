@@ -15,15 +15,17 @@ import React, { useState, useRef } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
-import { addChange, addError, removeError } from '../../redux/actions/registerAction';
-import store from '../../redux/store';
-import { isValid } from '../../validation/registrationValidation';
-import registerStyles from '../../styles/main/registerStyles';
-import imageIcon from '../../../src/assets/img/photos.svg';
-import dragImage from '../../../src/assets/img/fileupload.svg';
-import { useAuth } from '../../context/authContext';
+import Compressor from 'compressorjs';
+
+import { addChange, addError, addFiles, removeError } from '../../../redux/actions/registerAction';
+import store from '../../../redux/store';
+import { isValid } from '../../../validation/registrationValidation';
+import registerStyles from './registerStyles';
+import imageIcon from '../../../assets/img/photos.svg';
+import dragImage from '../../../assets/img/fileupload.svg';
+import { useAuth } from '../../../context/authContext';
 import { useHistory } from "react-router-dom";
-import logo from '../../assets/img/ourgenie-logo.svg';
+import logo from '../../../assets/img/ourgenie-logo.svg';
 const Register: React.FC = (props: any): JSX.Element => {
     const classes = registerStyles();
     const { signup } = useAuth()
@@ -85,11 +87,23 @@ const Register: React.FC = (props: any): JSX.Element => {
     function handleFiles(event: React.ChangeEvent<HTMLInputElement>) {
         let target = event.target.id;
         let fileList = event.target.files;
+        if (fileList) {
+			new Compressor(fileList[0], {
+				quality: 0.8,
+				convertSize: 1000000,
+				success(result) {
+					props.addFiles(target,result);
+				},
+				error(err) {
+					console.log(err.message);
+				},
+			});
+		}
         setFiles((event) => ({ ...upload, [target]: fileList }))
     }
     async function handleSubmit(event) {
         event.preventDefault()
-
+        console.log(props)
         try {
             setError("")
             setLoading(true)
@@ -285,10 +299,10 @@ const Register: React.FC = (props: any): JSX.Element => {
                                         <input
                                             accept="image/*"
                                             style={{ display: "none" }}
-                                            name="GST_certificate"
+                                            id="GST_certificate"
                                             multiple
                                             type="file"
-                                            onChange={() => { console.log("test") }}
+                                            onChange={handleFiles}
                                         />
                                         <label htmlFor="GST_certificate">
                                             <img className={classes.imageIcon} src={dragImage} />
@@ -387,7 +401,7 @@ const Register: React.FC = (props: any): JSX.Element => {
                                                 id="photo3"
                                                 multiple
                                                 type="file"
-                                                onChange={() => { console.log("test") }}
+                                                onChange={handleFiles}
                                             />
                                             <label htmlFor="photo3">
                                                 <img className={classes.imageIcon} src={imageIcon} />
@@ -434,6 +448,7 @@ const mapStateToProps = (states: any) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return ({
         addChange: (field: any, fieldValue: string) => dispatch(addChange(field, fieldValue)),
+        addFiles:(field:any,fieldVale:any) =>dispatch(addFiles(field,fieldVale)),
         addError: (field: any) => dispatch(addError(field)),
         removeError: (field: any) => dispatch(removeError(field)),
     })

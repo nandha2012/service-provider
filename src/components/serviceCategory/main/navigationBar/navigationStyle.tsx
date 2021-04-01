@@ -7,12 +7,12 @@ import {
 const useStyles = makeStyles((theme: Theme) => (
     createStyles({
         root: {
-            position: 'fixed',
             background: `transparent linear-gradient(
                 180deg
                 , #0D004C 0%, #24AE90 100%) 0% 0% no-repeat padding-box`,
             listStyle: 'none',
             width:'100%',
+            height:'80px',
         },
         grow: {
             flexGrow: 1,

@@ -1,12 +1,16 @@
 import axios from 'axios';
-export default function FetchCategory():any{
-    axios.get(`https://jsonplaceholder.typicode.com/users`)
-    .then(res => {
-        const categoryDetails:String[] = res.data;
-        return categoryDetails
-    }) .catch(err => {
+export interface IServices{
+            "service_name": string,
+            "service_display_name": string,
+            "service_url":string,
+            "no_of_services":number,
+            "service_img_url": string
+}
+export default async function FetchCategory(url){
+    return await axios.get(url)
+    .then(res => res.data.services
+    ).catch(err => {
         // Handle Error Here
-        console.error(err);
-        return []
+        console.error(err); 
     });
 }

@@ -25,7 +25,6 @@ interface IRegiserState {
     IFSC_code: String,
     Branch: String,
     PaymentTerm: String,
-
 }
 export interface IErrorState {
     error_email: boolean;
@@ -68,6 +67,10 @@ export const registrationReducer = (state: IRegiserState = initialState,
                 ...state,
                 [action.payload.field]: action.payload.fieldValue
             }
+        case registerActionTypes.ADD_FILES:
+            return{
+
+            }
         case registerActionTypes.ADD_ERROR:
             return {
                 ...state,
@@ -80,5 +83,41 @@ export const registrationReducer = (state: IRegiserState = initialState,
             }
         default:
             return state;
+    }
+}
+
+type FileAction ={
+    type: string;
+    payload: {
+        field:string;
+        fieldValue:any;
+    }
+};
+export interface IFileState{
+    GST_certificate:any,
+        photo1:any,
+        photo2:any,
+        photo3:any
+}
+export const fileState: IFileState = {
+    GST_certificate: '',
+        photo1: '',
+        photo2: '',
+        photo3: ''
+}
+export const fileReducer = (
+    state: IFileState = fileState,
+    action: FileAction
+): IFileState | any => {
+    
+    switch (action.type) {
+        case registerActionTypes.ADD_FILES:
+            console.log(action.payload.fieldValue);
+            return{
+                ...state,
+                [action.payload.field]: action.payload.fieldValue
+            }
+        default:
+            return state
     }
 }

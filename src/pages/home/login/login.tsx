@@ -1,9 +1,9 @@
 import { Box, Button, Grid, InputLabel, TextField, Typography } from '@material-ui/core';
 import React from 'react';
 import { useAuth0} from '@auth0/auth0-react';
-import loginStyles, { DividerWithText } from '../../styles/main/loginStyles';
+import loginStyles, { DividerWithText } from './loginStyles';
 import FacebookAuth from 'react-facebook-auth';
-import logo from "../../assets/img/logo-.png";
+import logo from "../../../assets/img/logo-.png";
 import clsx from 'clsx';
 const MyFacebookButton = ({ onClick }) => {
     const classes = loginStyles();
@@ -16,7 +16,7 @@ const Login = () => {
     const classes = loginStyles();
     const { loginWithRedirect, isAuthenticated } = useAuth0();
     const responseFacebook = (response: any) => {
-        console.log(response);
+       window.location.href="/OurGenie/user-profile.html"
     }
     return (
        
@@ -43,6 +43,7 @@ const Login = () => {
                             className={classes.formField}
                             variant="outlined"
                             color="secondary"
+                            type='password'
                         />
                     </Grid>
 

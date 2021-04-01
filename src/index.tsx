@@ -7,8 +7,8 @@ import dotenv from 'dotenv';
 import './index.css';
 dotenv.config();
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-console.log(process.env.REACT_APP_FIREBASE_API_KEY)
+const clientId = 'zApgQphfDL4e57kVwNZuuL57yGR1lfX6';
+
 ReactDOM.render( 
 <Auth0Provider
   domain={domain as string}

@@ -7,13 +7,13 @@ import {
 } from '@material-ui/core';
 import AOS from 'aos';
 import "aos/dist/aos.css";
-import categoryHomeStyles, { theme } from "../../styles/serviceCategory/main/categoryhomeStyles";
-import ListFields from '../../components/serviceCategory/categoryHome/listField';
+import categoryHomeStyles, { theme } from "./categoryhomeStyles";
+import ListFields from '../../../components/serviceCategory/categoryHome/listField/listField';
 const CategoryHome = (props: any) => {
     const classes = categoryHomeStyles();
    
     useEffect(() => {
-        AOS.init({ duration: 2000 })
+        AOS.init({ duration: 3000 })
     }, [])
     return (
         <Grid>

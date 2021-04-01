@@ -11,8 +11,12 @@ const useStyles = makeStyles((theme: Theme) => (
             marginBottom: ' 30px',
             padding: '33px 0',
             border: '1px solid #E6E6E6',
-            borderRadius: '8px'
+            borderRadius: '8px',
 
+        },
+        tileContent:{
+            height:'100%',
+            width:'100%',
         },
         listCarousel: {
             position: 'relative',
@@ -27,9 +31,6 @@ const useStyles = makeStyles((theme: Theme) => (
                 width: '1350px',
                 maxWidth: '1350px'
             }
-        },
-        shiftDot: {
-            color: 'red'
         },
         listContainer: {
 
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) => (
         },
         categoryList: {
             display: 'flex',
-            padding: '0 50px'
+            padding: '0 15%'
         }
     })
 )

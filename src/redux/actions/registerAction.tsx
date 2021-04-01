@@ -6,6 +6,13 @@ export const addChange = (field:any,fieldValue:any) =>({
         fieldValue
     }
 })
+export const addFiles =(field:any,fieldValue:any) =>({
+    type: registerActionTypes.ADD_FILES,
+    payload:{
+        field,
+        fieldValue
+    }
+})
 export const addError = (field:any) =>({
     type: registerActionTypes.ADD_ERROR,
     payload:{
