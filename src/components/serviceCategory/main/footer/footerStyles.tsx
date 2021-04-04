@@ -43,7 +43,14 @@ export const theme = createMuiTheme({
                     borderWidth: 1,
                 },
             },
-        },    
+        },
+        MuiContainer:{
+            root:{
+                ['@media (min-width: 600px)']:{
+                    padding:'0px',
+                }
+            }
+        }    
     },
 });
 const useStyles = makeStyles((theme: Theme) => (

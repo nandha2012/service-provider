@@ -8,7 +8,8 @@ import {
     InputAdornment,
     Divider,
     Link,
-    Typography
+    Typography,
+    Container
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import logo from '../../../../assets/img/logo.png';
@@ -26,6 +27,7 @@ const Footer = () => {
     return (
         <div className={classes.footer}>
             <ThemeProvider theme={theme}>
+                <Container>
                 <Grid container className={classes.footerContent}>
                     <Grid item xs={12} sm={3}>
                         <Box className="footer-logo">
@@ -59,7 +61,7 @@ const Footer = () => {
                             </List>
                         </Box>
                     </Grid>
-                    <Grid container item xs={12} sm={4} spacing={3} style={{marginBottom:'10px'}}>
+                    <Grid container item xs={12} sm={4} spacing={2} style={{marginBottom:'10px'}}>
                         <Grid item xs={12} >
                             <Typography variant='h6'>Subscribe to our newsletter</Typography>
                         </Grid>
@@ -104,6 +106,7 @@ const Footer = () => {
                         </List>
                     </Grid>
                 </Grid>
+                </Container>
             </ThemeProvider>
         </div>
     )

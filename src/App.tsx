@@ -11,6 +11,7 @@ import store from "./redux/store";
 const Register =React.lazy(() =>import('./pages/home/register/register'))
 const ServiceCategory = React.lazy(() => import('./pages/serviceCategory/main'))
 const Login = React.lazy(()=> import('./pages/home/login/login'))
+const HomePage = React.lazy(() =>import('./pages/home/main/home'))
 function App() {
   return (
     <Provider store={store}>
@@ -19,7 +20,7 @@ function App() {
       <AuthProvider>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
-            <Route exact path='/' render={ ():any=>{window.location.href='/OurGenie/home.html'}} />
+            <Route exact path='/' component={HomePage} />
             <Route path='/register' component={Register} />
             <Route path='/category' component={ServiceCategory} />
             <Route path='/login' component={Login} />

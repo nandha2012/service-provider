@@ -5,14 +5,17 @@ import {
     Toolbar
 } from '@material-ui/core';
 import React from 'react';
-import logo from '../../../../assets/img/header-logo.png';
-import navStyles from './navigationStyle'
+import { ThemeProvider } from '@material-ui/core/styles';
+import logo from '../../../../assets/img/logo.png';
+import navStyles,{theme as Theme} from './navigationStyle'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 const CartCount = 4;
 const NavigatonBar = () => {
     const classes = navStyles();
-    return (<div>
+    return (
+        <ThemeProvider theme={Theme}>
+        <div>
         <AppBar className={classes.root} position='fixed'>
             <Toolbar>
                 <img src={logo} alt='Company name' className={classes.img} />
@@ -30,7 +33,8 @@ const NavigatonBar = () => {
                 </div>
             </Toolbar>
         </AppBar>
-    </div>)
+    </div>
+    </ThemeProvider>)
 
 }
 export default NavigatonBar;

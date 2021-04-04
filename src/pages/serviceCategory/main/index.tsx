@@ -4,7 +4,6 @@ import {
     Zoom,
     Fab
 } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@material-ui/icons'
 import CategoryHome from '../category/categoryHome'
 import SubCategory from '../subCategory/subCategory'
@@ -12,16 +11,17 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Link,
     Route,
     useRouteMatch
 } from "react-router-dom";
 import NavigatonBar from '../../../components/serviceCategory/main/navigationBar/navigationBar';
 import Footer from '../../../components/serviceCategory/main/footer/footer';
-import useStyles,{theme as Theme} from './mainStyles'
+import useStyles from './mainStyles'
 import ProductList from '../productList/productList';
 import Cart from '../cart/cart';
 import ScheduleBooking from '../booking/scheduleBooking';
+import CompanyList from '../../../components/company/companyList';
+import PaymentScreen from '../../../components/payment/payment';
 interface Props {
     /**
      * Injected by the documentation to work in an iframe.
@@ -65,7 +65,6 @@ const ServiceCategory = (props) => {
     const classes = useStyles();
     let { path, url } = useRouteMatch();
     return (
-      <ThemeProvider theme={Theme}>
         <div className={classes.root}>
             <Grid container >
                 <Grid item xs={12} sm={12} id='back-to-top-anchor'>
@@ -79,6 +78,8 @@ const ServiceCategory = (props) => {
                         <Route path={`${path}/product-list`} component={ProductList} />
                         <Route path={`${path}/cart`} component ={Cart} />
                         <Route path={`${path}/schedule-booking`} component={ScheduleBooking}/>
+                        <Route path={`${path}/company-list`} component ={CompanyList} />
+                        <Route path={`${path}/payment`} component={PaymentScreen} />
                     </Switch>
                    
                         <ScrollTop {...props}>
@@ -96,7 +97,6 @@ const ServiceCategory = (props) => {
                 </Grid>
             </Grid>
         </div >
-        </ThemeProvider>
     )
 }
 export default ServiceCategory;
