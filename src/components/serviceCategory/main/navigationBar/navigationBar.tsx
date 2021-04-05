@@ -11,12 +11,12 @@ import navStyles,{theme as Theme} from './navigationStyle'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 const CartCount = 4;
-const NavigatonBar = () => {
+const NavigatonBar = (props) => {
     const classes = navStyles();
     return (
         <ThemeProvider theme={Theme}>
         <div>
-        <AppBar className={classes.root} position='fixed'>
+        <AppBar className={classes.root} position='fixed' style={{ background: props.backGround,boxShadow:props.shadow}}>
             <Toolbar>
                 <img src={logo} alt='Company name' className={classes.img} />
                 <div className={classes.grow} />

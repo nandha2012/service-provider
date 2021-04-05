@@ -68,7 +68,9 @@ const ServiceCategory = (props) => {
         <div className={classes.root}>
             <Grid container >
                 <Grid item xs={12} sm={12} id='back-to-top-anchor'>
-                    <NavigatonBar />
+                    <NavigatonBar backGround='transparent linear-gradient(
+        180deg
+        , #0D004C 0%, #24AE90 100%) 0% 0% no-repeat padding-box' shadow='none'/>
                 </Grid>
                 <Grid item xs={12} sm={12} >
                   <div className={classes.categoryBody}></div>

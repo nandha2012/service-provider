@@ -18,8 +18,15 @@ const useStyles = makeStyles((theme: Theme) => (
     categoryBody: {
       [`@media (min-width: 600px)`]: {
         minHeight: '80px'
-      }
+      },
+      background: 'transparent', 
+      boxShadow: 'none'
     },
+    topBar:{
+      background: `transparent linear-gradient(
+        180deg
+        , #0D004C 0%, #24AE90 100%) 0% 0% no-repeat padding-box`,
+    }
 
   })
 )

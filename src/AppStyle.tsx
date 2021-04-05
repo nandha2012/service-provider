@@ -1,21 +1,20 @@
 import {
-    makeStyles,
-    createStyles,
-    createMuiTheme,
-    Theme
+  makeStyles,
+  createStyles,
+  createMuiTheme,
+  Theme
 } from '@material-ui/core/styles'
 import bannerimg from '../../../assets/img/home-bg.png';
 export const theme = createMuiTheme({
-    overrides: {
-        MuiAppBar: {
-            root: {
+  overrides: {
+      MuiAppBar: {
+          root: {
 
-            }
-        }
-    }
+          }
+      }
+  }
 })
 const useStyles = makeStyles((theme: Theme) => (
-    createStyles({
-       
-    })))
+  createStyles({
+  })))
 export default useStyles;
