@@ -16,6 +16,14 @@ export const theme = createMuiTheme({
 })
 const useStyles = makeStyles((theme: Theme) => (
     createStyles({
-       
+        backToTop: {
+            position: 'fixed',
+            bottom: theme.spacing(2),
+            right: theme.spacing(2),
+      
+          },
+            categoryContainer:{
+                padding:'3% 8%'
+            }
     })))
 export default useStyles;
