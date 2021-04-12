@@ -1,457 +1,117 @@
+// node module Imports
+import React, { useState, useRef } from 'react';
 import {
-    TextareaAutosize,
-    Container,
-    TextField,
-    Typography,
-    Grid,
-    Button,
-    Box,
-    Breadcrumbs,
-    Link
+    Container, Typography,
+    Grid, Box,
+    Breadcrumbs, Link,
+    Dialog, Button, Zoom,
+    Slide,
 } from '@material-ui/core';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    useRouteMatch,
+    useHistory
+} from "react-router-dom";
+import { TransitionProps } from '@material-ui/core/transitions';
+
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
-import React, { useState, useRef } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import clsx from 'clsx';
-import Compressor from 'compressorjs';
-
-import { addChange, addError, addFiles, removeError } from '../../../redux/actions/registerAction';
-import store from '../../../redux/store';
-import { isValid } from '../../../validation/registrationValidation';
-import registerStyles from './registerStyles';
-import imageIcon from '../../../assets/img/photos.svg';
-import dragImage from '../../../assets/img/fileupload.svg';
-import { useAuth } from '../../../context/authContext';
-import { useHistory } from "react-router-dom";
+// Assets  imports
 import logo from '../../../assets/img/ourgenie-logo.svg';
+//Styles imports
+import registerStyles from './registerStyles';
+
+//Component imports
+import UserRegister from '../../../components/register/user/userRegister';
+import { ThunkDispatch } from 'redux-thunk';
+import { addChange } from '../../../redux/actions/registerAction';
+import { connect } from 'react-redux';
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children?: React.ReactElement },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 const Register: React.FC = (props: any): JSX.Element => {
+    const history = useHistory();
+    const [open,toggle] = useState(true);
+    const [isProfessional,setProfession]= useState(false);
     const classes = registerStyles();
-    const { signup } = useAuth()
-    const history = useHistory()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-    const [formState, setFormState] = useState({
-        BusinessName: '',
-        OwnerName: '',
-        registredPhone: '',
-        alternatePhone: '',
-        whatsupNumber: '',
-        Category: '',
-        subCategory: '',
-        address: '',
-        description: '',
-        emailId: '',
-        GST_Number: '',
-        AccountName: '',
-        IFSC_code: '',
-        Branch: '',
-        PaymentTerm: '',
-    })
-    const [upload, setFiles] = useState({
-        GST_certificate: '',
-        photo1: '',
-        photo2: '',
-        photo3: ''
-    })
-
-    const validateField = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        let field = event.target.id;
-        let fieldVale = event.target.value;
-        isValid(field, fieldVale, props);
-    }
-    function handleChangeText(event: React.ChangeEvent<HTMLInputElement>) {
-        let value = event.target.value;
-        value = value.replace(/[^A-Za-z]/gi, "");
-        console.log(event.target.name);
-        props.addChange(event.target.name, value);
-
-    }
-    function handleChangeNumber(event: React.ChangeEvent<HTMLInputElement>) {
-        const regex = /^[0-9\b]+$/;
-        const value = event.target.value;
-        if (value === '' || regex.test(value)) {
-            props.addChange(event.target.name, value);
+    const handleForm = (event)=>{
+        if(event.target.id === "professional"){
+            setProfession(true);
+            console.log('isprofessional')
         }
-    }
-    function handleSelect(event: React.ChangeEvent<{ name?: string; value: unknown }>) {
-        let value = event.target.value;
-        const name = event.target.name;
-        props.addChange(name, value)
-    }
-    function handleTextArea(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        let value = event.target.value;
-        props.addChange(event.target.id, value);
-    }
-    function handleFiles(event: React.ChangeEvent<HTMLInputElement>) {
-        let target = event.target.id;
-        let fileList = event.target.files;
-        if (fileList) {
-			new Compressor(fileList[0], {
-				quality: 0.8,
-				convertSize: 1000000,
-				success(result) {
-					props.addFiles(target,result);
-				},
-				error(err) {
-					console.log(err.message);
-				},
-			});
-		}
-        setFiles((event) => ({ ...upload, [target]: fileList }))
-    }
-    async function handleSubmit(event) {
-        event.preventDefault()
-        console.log(props)
-        try {
-            setError("")
-            setLoading(true)
-            await signup(props.state.registrationReducer.emailId, props.state.registrationReducer.password)
-            history.push("/login")
-        } catch {
-            setError("Failed to create an account")
-        }
-
-        setLoading(false)
+        
     }
     return (
-        <Grid container>
-            <Grid item className={classes.registerHeader}>
-                <Box className={classes.headerContainer}>
-                    <img src={logo} alt="App Logo" className={classes.headerImg} />
-                    <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} className={classes.breadCum} >
-                        <Link color="inherit" href="/login">
-                            Home
+        <div>
+            <Grid container>
+                <Grid item className={classes.registerHeader}>
+                    <Box className={classes.headerContainer}>
+                        <img src={logo} alt="App Logo" className={classes.headerImg} />
+                        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} className={classes.breadCum} >
+                            <Link color="inherit" href="/login">
+                                Home
                         </Link>
-                        <Link color="inherit" href="/getting-started/installation/">
-                            Register
+                            <Link color="inherit" href="/getting-started/installation/">
+                                Register
                         </Link>
-                    </Breadcrumbs>
-                </Box>
+                        </Breadcrumbs>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <Box className={classes.containerWrapper}>
+                        <Container className={classes.registerContainer} fixed>
+                            <Typography align='center' variant='h2' className={classes.registerHeading}>Register</Typography>
+                            <form noValidate>
+                                <Grid container spacing={2}>
+                                    <UserRegister isProfessional={isProfessional}/>
+                                </Grid>
+                            </form>
+                        </Container>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} >
+                    <Box className={classes.registerFooter}>
+                        <Typography>@2020, Our Genie</Typography>
+                    </Box>
+                </Grid>
             </Grid>
-            <Grid item xs={12} sm={12}>
-                <Box className={classes.containerWrapper}>
-                    <Container className={classes.registerContainer} fixed>
-                        <Typography align='center' variant='h2' className={classes.registerHeading}>Register</Typography>
-                        <form className={classes.form} noValidate>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={4}>
-                                    <Typography>Business name</Typography>
-                                    <TextField name="BusinessName"
-                                        variant="outlined"
-                                        value={props.state.registrationReducer.BusinessName}
-                                        className={classes.inputField}
-                                        onChange={handleChangeText}
-                                        color="secondary"
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={4}>
-                                    <Typography>Owner name</Typography>
-                                    <TextField
-                                        name="OwnerName"
-                                        variant="outlined"
-                                        className={classes.inputField}
-                                        value={props.state.registrationReducer.OwnerName}
-                                        onChange={handleChangeText}
-                                        color="secondary"
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Category</Typography>
-                                    <TextField
-                                        select
-                                        className={classes.inputField}
-                                        value={props.state.registrationReducer.Category}
-                                        variant="outlined"
-                                        onChange={handleSelect}
-                                        inputProps={{
-                                            name: 'Category'
-                                        }}
-                                    >
-                                        <option aria-label="None" value="" />
-                                        <option value={10}>Ten</option>
-                                        <option value={20}>Twenty</option>
-                                        <option value={30}>Thirty</option>
-                                    </TextField>
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>User Name</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="userName"
-                                        id='userName'
-                                        value={props.state.registrationReducer.registredPhone}
-                                        onChange={handleChangeText}
-                                        color="secondary"
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Password</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="password"
-                                        type='password'
-                                        id='password'
-                                        onChange={handleChangeText}
-                                        error={props.state.registrationReducer.error_password}
-                                        helperText={props.state.registrationReducer.error_password ? "Password should consist of one alphabet,one number,one symbol" : ""}
-                                        color="secondary"
-                                        onBlur={validateField}
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Confirm Password</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        id='confirmPassword'
-                                        name='confirmPassword'
-                                        type='password'
-                                        error={props.state.registrationReducer.error_confirmPassword}
-                                        helperText={props.state.registrationReducer.error_confirmPassword ? "Required same as password" : ""}
-                                        onChange={handleChangeText}
-                                        onBlur={validateField}
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Sub Category</Typography>
-                                    <TextField
-                                        select
-                                        value={props.state.registrationReducer.subCategory}
-                                        className={classes.inputField}
-                                        variant="outlined"
-                                        onChange={handleSelect}
-                                        inputProps={{
-                                            name: 'subCategory',
-                                        }}
-                                    >
-                                        <option aria-label="None" value="" />
-                                        <option value={10}>Ten</option>
-                                        <option value={20}>Twenty</option>
-                                        <option value={30}>Thirty</option>
-                                    </TextField>
-                                </Grid>
-                                <Grid item sm={8} xs={12}>
-                                    <Typography>Address</Typography>
-                                    <TextareaAutosize className={classes.textArea}
-                                        aria-label="minimum height"
-                                        rowsMin={3}
-                                        name="address"
-                                        placeholder='Add Your address'
-                                        onChange={handleTextArea}
-                                    />
-                                </Grid>
-                                <Grid item sm={12} xs={12}>
-                                    <Typography>About your service / description</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="description"
-                                        color="secondary"
-                                        onChange={handleChangeText} />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Registred Phone No</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="registredPhone"
-                                        id='mobile'
-                                        value={props.state.registrationReducer.registredPhone}
-                                        onChange={handleChangeNumber}
-                                        color="secondary"
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Alternate phone no</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="alternatePhone"
-                                        id='mobile'
-                                        value={props.state.registrationReducer.alternatePhone}
-                                        onChange={handleChangeNumber}
-                                        color="secondary"
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Email id</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="emailId"
-                                        id='emailId'
-                                        color="secondary"
-                                        error={props.state.registrationReducer.error_email}
-                                        helperText={props.state.registrationReducer.error_email ? "Enter valid email" : ""}
-                                        onChange={handleTextArea}
-                                        onBlur={validateField}
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>GST number </Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="GST_Number"
-                                        color="secondary"
-                                        onChange={handleChangeText}
-                                    />
-                                </Grid>
-                                <Grid item sm={8} xs={12}>
-                                    <Typography>GST certificate</Typography>
-                                    <Button className={classes.imageButton} >
-                                        <input
-                                            accept="image/*"
-                                            style={{ display: "none" }}
-                                            id="GST_certificate"
-                                            multiple
-                                            type="file"
-                                            onChange={handleFiles}
-                                        />
-                                        <label htmlFor="GST_certificate">
-                                            <img className={classes.imageIcon} src={dragImage} />
-                                            <Typography style={{ marginTop: '20px' }}>Drag it Here</Typography>
-                                        </label>
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <Typography variant='h5'>Bank details</Typography>
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Account name</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="AccountName"
-                                        color="secondary"
-                                        onChange={handleChangeText}
-                                    />
-                                </Grid>
-                                <Grid item sm={2} xs={12}>
-                                    <Typography>IFSC code </Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="IFSC_code"
-                                        color="secondary"
-                                        onChange={handleChangeText}
-                                    />
-                                </Grid>
-                                <Grid item sm={4} xs={12}>
-                                    <Typography>Branch</Typography>
-                                    <TextField variant="outlined"
-                                        className={classes.inputField}
-                                        name="Branch"
-                                        color="secondary"
-                                        onChange={handleChangeText}
-                                    />
-                                </Grid>
-                                <Grid item container sm={2} xs={12}>
-                                    <Typography>Payment term</Typography>
-                                    <TextField
-                                        select
-                                        className={classes.inputField}
-                                        name="PaymentTerm"
-                                        value={props.state.registrationReducer.PaymentTerm}
-                                        variant="outlined"
-                                        onChange={handleSelect}
-                                        inputProps={{
-                                            name: 'PaymentTerm'
-                                        }}
-                                    >
-                                        <option aria-label="None" value="" />
-                                        <option value={10}>Ten</option>
-                                        <option value={20}>Twenty</option>
-                                        <option value={30}>Thirty</option>
-                                    </TextField>
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <Typography >Photo</Typography>
-                                </Grid>
-                                <Grid item container sm={12} spacing={2}>
-                                    <Grid item className={classes.imageField} sm={4} xs={12} >
-                                        <Button className={classes.imageButton}>
-                                            <input
-                                                accept="image/*"
-                                                style={{ display: "none" }}
-                                                id="photo1"
-                                                multiple
-                                                type="file"
-                                                onChange={handleFiles}
-                                            />
-                                            <label htmlFor="photo1">
-                                                <img className={classes.imageIcon} src={imageIcon} />
-                                            </label>
-                                        </Button>
-                                    </Grid>
-
-                                    <Grid item className={classes.imageField} sm={4} xs={12}>
-                                        <Button className={classes.imageButton} >
-                                            <input
-                                                accept="image/*"
-                                                style={{ display: "none" }}
-                                                id="photo2"
-                                                type="file"
-                                                onChange={handleFiles}
-                                            />
-                                            <label htmlFor="photo2">
-                                                <img className={classes.imageIcon} src={imageIcon} />
-                                            </label>
-                                        </Button>
-                                    </Grid>
-                                    <Grid item className={classes.imageField} sm={4} xs={12}>
-                                        <Button className={classes.imageButton} >
-                                            <input
-                                                accept="image/*"
-                                                style={{ display: "none" }}
-                                                id="photo3"
-                                                multiple
-                                                type="file"
-                                                onChange={handleFiles}
-                                            />
-                                            <label htmlFor="photo3">
-                                                <img className={classes.imageIcon} src={imageIcon} />
-                                            </label>
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                <Grid item sm={8} xs={12}>
-                                    <Typography>Whatsup number</Typography>
-                                    <TextField name="whatsupNumber"
-                                        id='mobile'
-                                        variant="outlined"
-                                        value={props.state.registrationReducer.whatsupNumber}
-                                        onChange={handleChangeNumber}
-                                        className={classes.inputField}
-                                        color="secondary" />
-                                </Grid>
-                                <Grid item sm={4}>
-                                    <Button className={clsx(classes.button, classes.cancel)}>Cancel</Button>
-                                    <Button className={clsx(classes.button, classes.register)}
-                                        onClick={handleSubmit}
-                                        disabled={loading}
-                                    >Register</Button>
-                                </Grid>
+            <Dialog fullScreen open={open} TransitionComponent={Transition}>
+                <Container maxWidth='sm' className={classes.dialogContainer}>
+                    <Grid container className={classes.dialogContent}>
+                        <Grid item sm={12}>
+                            <Typography variant='h3' className={classes.dialogHeading}>May I Know Who are?</Typography>
+                        </Grid>
+                        <Grid item container sm={12}>
+                            <Grid item sm={12}>
+                                <Button className={classes.button} id='professional' onClick={()=>{ 
+                                    setProfession(true);
+                                    toggle(false);
+                                    props.addChange('user_type', "professional")
+                                }}>Professional</Button>
                             </Grid>
-                        </form>
-                    </Container>
-                </Box>
-            </Grid>
-            <Grid item xs={12} sm={12} >
-                <Box className={classes.registerFooter}>
-                    <Typography>@2020, Our Genie</Typography>
-                </Box>
-            </Grid>
-        </Grid>
+                            <Grid item sm={12}>
+                                <Button className={classes.button} id='user' onClick={()=>{ 
+                                                                        setProfession(false);
+                                                                        toggle(false);
+                                                                        props.addChange("user_type", "customer")
+                                                                    }} 
+                                >User</Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Container>
+            </Dialog>
+        </div>
     )
 }
-
-const mapStateToProps = (states: any) => {
-    return {
-        state: states
-    }
-}
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => {
     return ({
         addChange: (field: any, fieldValue: string) => dispatch(addChange(field, fieldValue)),
-        addFiles:(field:any,fieldVale:any) =>dispatch(addFiles(field,fieldVale)),
-        addError: (field: any) => dispatch(addError(field)),
-        removeError: (field: any) => dispatch(removeError(field)),
     })
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(null,mapDispatchToProps)(Register);

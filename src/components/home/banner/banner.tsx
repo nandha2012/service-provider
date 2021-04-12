@@ -32,53 +32,64 @@ const responsive = {
         items: 1
     }
 };
-const Banner = ({ deviceType }: any) =>{
-    const classes =useStyles();
-    return(
+const Banner = ({ deviceType }: any) => {
+    const classes = useStyles();
+    return (
         <Carousel
-        additionalTransfrom={0}
-        arrows
-        containerClass="container"
-        draggable
-        focusOnSelect={false}
-        infinite
-        keyBoardControl
-        deviceType={deviceType}
-        minimumTouchDrag={80}
-        sliderClass=""
-        slidesToSlide={1}
-        swipeable
-        responsive={responsive}
-    >
-        {[1,2,3,4,5].map(() => (
-        <Box component='div' className={classes.homeBanner}>
-                <Container className={classes.bannerContent}>
-                    <Box>
-                        <Typography variant="h4">A nice section heading goes here</Typography>
-                        <Typography>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed </Typography>
+            additionalTransfrom={0}
+            arrows
+            centerMode={false}
+            containerClass="container"
+            draggable
+            focusOnSelect={false}
+            infinite
+            keyBoardControl
+            deviceType={deviceType}
+            minimumTouchDrag={80}
+            sliderClass=""
+            slidesToSlide={1}
+            swipeable
+            responsive={responsive}
+        >
+            {[1, 2, 3, 4, 5].map(() => (
+                <Box component='div' className={classes.homeBanner}>
+                    <Box className={classes.bannerContent}>
+                        <Box className={classes.bannerHeading}>
+                            <Box>
+                                <Typography variant="h3" style={{ fontWeight: 600 }}>A nice section heading goes here</Typography>
+                                <Typography>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed </Typography>
+                            </Box>
+                            <Box className={classes.bannerForm}>
+                                <TextField select className={classes.locationSelect}
+                                InputProps={{
+                                    className: classes.input,
+                                }}
+                                >
+                                    {['city-1', 'city-2', 'city-3', 'city-4', 'city-5',].map((option) => (
+                                        <option key={Math.floor(Math.random())} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </TextField>
+                                <TextField className={classes.locationInput}
+                                    InputProps={{
+                                        className:classes.input,
+                                        placeholder:"search for a service",
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                >
+                                </TextField>
+                            </Box>
+                        </Box>
                     </Box>
-                    <Box>
-                        <TextField select>
-                            {['city-1', 'city-2', 'city-3', 'city-4', 'city-5',].map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </TextField>
-                        <TextField InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}>
-                        </TextField>
-                    </Box>
-                </Container>
-        </Box>
-    ))
-        }
-     </Carousel>
+                </Box>
+            ))
+            }
+        </Carousel>
     )
 };
 Banner.getInitialProps = ({ req }: any) => {

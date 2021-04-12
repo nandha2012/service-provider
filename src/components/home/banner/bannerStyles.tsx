@@ -7,11 +7,11 @@ import {
 import bannerimg from '../../../assets/img/home-bg.png';
 export const theme = createMuiTheme({
     overrides: {
-        MuiAppBar: {
-            root: {
-
+        MuiTextField:{
+            root:{
+                
             }
-        }
+        }	
     }
 })
 const useStyles = makeStyles((theme: Theme) => (
@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme: Theme) => (
             background: `url(${bannerimg}) no-repeat`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            height:'410px',
+            height:'521px',
+            justifyContent:'center',
             '&:before':{
                 height:'100%',
                 width:'100%',
@@ -32,16 +33,61 @@ const useStyles = makeStyles((theme: Theme) => (
                 background:'rgb(0 0 0 / 55%)',
             }
         },
-        bannerCarousel: {
-        },
-        bannerContent:{
+        bannerHeading: {
             top:'150px',
             position:'absolute',
             textAlign: 'center',
             color:'#ffff',
+           
+        },
+        bannerContent:{
+            display: 'flex',
+            justifyContent:'center',
+            alignItems:'center',
+            height:'100vh',
+            margin: 'auto',
         },
         bannercontainer:{
             height:'250px',
+        },
+        bannerInput:{
+            backgroundColor:'white',
+        },
+        locationSelect:{
+            borderRadius:'30px 0px 0px 30px',
+            backgroundColor:'white',
+            width:'101.3px',
+            float:"left",
+            
+        },
+        bannerForm:{
+            width:'80%',
+            margin:'60px 109.500px 16px 109.500px',    
+        },
+        locationInput:{
+            borderRadius:'0px 30px 30px 0px',
+            background:'white',
+            float:"left",
+            width:'650px',
+            "&:before": {
+                position: 'absolute',
+                backgroundColor:'#999999',
+                top:'12px',
+                zIndex:1,
+                left:'16.4%',
+                content:'',
+                width:'1px',
+                height:'25px',
+              },
+        },
+        input:{
+            height:"52px",
+            "&&&:before": {
+                borderBottom: "none"
+              },
+              "&&:after": {
+                borderBottom: "none"
+              }
         }
     })))
 export default useStyles;

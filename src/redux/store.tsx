@@ -1,6 +1,12 @@
-import { createStore, combineReducers,applyMiddleware } from 'redux';
-import {registrationReducer,fileReducer} from './reducers/registrationReducer';
-import thunk from 'redux-thunk';
-const rootReducer = combineReducers({registrationReducer,fileReducer});
-const store = createStore(rootReducer,applyMiddleware(thunk));
+import { createStore, combineReducers,applyMiddleware, AnyAction } from 'redux';
+import {userRegistrationReducer,fileReducer,registerErrorReducer} from './reducers/registerReducer';
+import {userReducer } from './reducers/userReducer';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
+const rootReducer = combineReducers({
+    userRegistrationReducer,
+    fileReducer,
+    registerErrorReducer,
+    userReducer
+});
+const store = createStore(rootReducer,applyMiddleware(thunk as ThunkMiddleware<{}, AnyAction>));
 export default store; 

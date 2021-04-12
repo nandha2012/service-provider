@@ -43,17 +43,17 @@ const HomePage = (props: Props) => {
 
     };
     return (
-        <div>
+        <div className={classes.root}>
             <Box id='back-to-top-anchor' >
                 <NavBar backGround={trigger ? '#239889 0% 0% no-repeat padding-box' : 'transparent'}
                     shadow='none' />
             </Box>
             <Grid container>
-                <Grid item sm={12}>
+                <Grid item sm={12} xs={12}>
                     <Banner />
                 </Grid>
-                <Grid item sm={12}>
-                    <Container className={classes.categoryContainer} maxWidth='md'>
+                <Grid item sm={12} className={classes.SectionCategory}>
+                    <Container className={classes.categoryContainer}>
                         <TopCategory />
                     </Container>
                 </Grid>

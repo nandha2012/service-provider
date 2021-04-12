@@ -5,6 +5,8 @@ import {
     Toolbar
 } from '@material-ui/core';
 import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { ThemeProvider } from '@material-ui/core/styles';
 import logo from '../../../../assets/img/logo.png';
 import navStyles,{theme as Theme} from './navigationStyle'
@@ -13,6 +15,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 const CartCount = 4;
 const NavigatonBar = (props) => {
     const classes = navStyles();
+    const { user, isAuthenticated, isLoading } = useAuth0();
     return (
         <ThemeProvider theme={Theme}>
         <div>
@@ -29,7 +32,7 @@ const NavigatonBar = (props) => {
                             <ShoppingCartIcon />
                         </Badge>
                     </Button>
-                    <Button className={classes.button} href="/">Sign in/Sign up</Button>
+                    <Button className={classes.button} href="/">{isAuthenticated ?user.name: "Sign in/Sign up"}</Button>
                 </div>
             </Toolbar>
         </AppBar>

@@ -1,8 +1,0 @@
-export type FormAction ={
-    type: string;
-    payload: {
-        field:string;
-        fieldValue:string;
-    }
-};
-type DispatchType = (args: FormAction) => FormAction;

@@ -2,7 +2,7 @@ import validator from 'validator';
 export const isValid = (field: string, fieldValue: string, action: any): any => {
     console.log(field);
     switch (field) {
-        case "emailId":
+        case "userid":
             if (fieldValue !== "" && validateEmail(fieldValue) && fieldValue.length < 39) {
                 action.removeError("error_email")
                 action.addError("error_validate")
@@ -23,7 +23,7 @@ export const isValid = (field: string, fieldValue: string, action: any): any => 
             }
             break;
         case "password":
-            if (fieldValue !== "" && (validPassword(fieldValue) >= 20.1)) {
+            if (fieldValue !== "" && (validPassword(fieldValue) && fieldValue.length < 39)) {
                 action.removeError("error_password")
                 action.addError("error_validate")
             }
@@ -32,19 +32,6 @@ export const isValid = (field: string, fieldValue: string, action: any): any => 
                 console.log(fieldValue.length)
                 action.addError("error_password")
                 action.removeError("error_validate")
-            }
-            break;
-        case "confirmPassword":
-            let password = action.state.registrationReducer.password;
-            let confirmPassword = action.state.registrationReducer.confirmPassword;
-            if ((confirmPassword !== "") && confirmPassword === password) {
-                action.removeError("error_confirmPassword")
-                action.addError("error_validate")
-            }
-            else {
-                action.addError("error_confirmPassword")
-                action.removeError("error_validate")
-
             }
             break;
         default:
